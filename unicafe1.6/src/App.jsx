@@ -3,11 +3,17 @@ import { useState } from 'react'
 const Header = ({text}) => <h2>{text}</h2>
 const Button = ({name, handleClick}) => <button onClick={handleClick}>{name}</button>
 const DisplayResults = ({type, count}) => <div>{type} {count}</div>
-const Statistics = ({fValue, totalCount, positive}) => {
+const Statistics = (props) => {
+    if (props.total == 0) {
+        return <div>No feedback given</div>
+    }
     return <div>
-        <DisplayResults type={"all"} count={totalCount} />
-        <DisplayResults type={"average"} count={fValue/totalCount} />
-        <DisplayResults type={"positive"} count={(positive/totalCount)*100+" %"} />
+        <DisplayResults type={"good"} count={props.good} />
+        <DisplayResults type={"neutral"} count={props.neutral} />
+        <DisplayResults type={"bad"} count={props.bad} /> 
+        <DisplayResults type={"all"} count={props.total} />
+        <DisplayResults type={"average"} count={props.runTotal/props.total} />
+        <DisplayResults type={"positive"} count={(props.positive/props.total)*100+" %"} />
     </div>
 }
 
@@ -43,11 +49,15 @@ const App = () => {
             <Button name={"good"} handleClick={() => onGood(good+1)} />
             <Button name={"neutral"} handleClick={() => onNeutral(neutral+1)} />
             <Button name={"bad"} handleClick={() => onBad(bad+1)} />
-            <Header text={"statistics"} />
-            <DisplayResults type={"good"} count={good} />
-            <DisplayResults type={"neutral"} count={neutral} />
-            <DisplayResults type={"bad"} count={bad} />            
-            <Statistics fValue={runTotal} totalCount={total} positive={good} />
+            <Header text={"statistics"} />           
+            <Statistics
+                good={good}
+                neutral={neutral} 
+                bad={bad}
+                positive={positive}
+                total={total}
+                runTotal={runTotal}
+            />
         </div>
     )
 }
