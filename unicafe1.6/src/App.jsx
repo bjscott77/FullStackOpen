@@ -3,17 +3,19 @@ import { useState } from 'react'
 const Header = ({text}) => <h2>{text}</h2>
 const Button = ({name, handleClick}) => <button onClick={handleClick}>{name}</button>
 const DisplayResults = ({type, count}) => <div>{type} {count}</div>
+const StatisticLine = ({text, value}) => <div>{text} {value}</div>
+const DisplayText = ({text}) => <p>{text}</p>
 const Statistics = (props) => {
     if (props.total == 0) {
-        return <div>No feedback given</div>
+        return <DisplayText text={"No feedback given"} />
     }
     return <div>
-        <DisplayResults type={"good"} count={props.good} />
-        <DisplayResults type={"neutral"} count={props.neutral} />
-        <DisplayResults type={"bad"} count={props.bad} /> 
-        <DisplayResults type={"all"} count={props.total} />
-        <DisplayResults type={"average"} count={props.runTotal/props.total} />
-        <DisplayResults type={"positive"} count={(props.positive/props.total)*100+" %"} />
+        <StatisticLine text={"good"} value={props.good} />
+        <StatisticLine text={"neutral"} value={props.neutral} />
+        <StatisticLine text={"bad"} value={props.bad} /> 
+        <StatisticLine text={"all"} value={props.total} />
+        <StatisticLine text={"average"} value={props.runTotal/props.total} />
+        <StatisticLine text={"positive"} value={(props.positive/props.total)*100+" %"} />
     </div>
 }
 
