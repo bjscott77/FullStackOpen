@@ -1,12 +1,18 @@
 import { useState } from 'react'
 
+const Header = ({text}) => <h2>{text}</h2>
+const Paragraph = ({text}) => <p>{text}</p>
 const Button = ({name, handleClick}) => <button onClick={handleClick}>{name}</button>
-const DisplayAnecdote = (props) => {
+const DisplayAnecdote = ({anecdote, vote, ...props}) => {
     return <div>
-        <div>{props.anecdotes[props.selected]}</div>        
-        <div>has {props.votes[props.selected]} votes</div>
+        <Header text={"Anecdote of the Day"} />
+        <Paragraph text={anecdote} />
+        <Paragraph text={"has "+vote+" votes"} />
         <Button name={"Vote"} handleClick={props.handleOnVote} />         
         <Button name={"Next Anecdote"} handleClick={props.handleNextAnecdote} />
+        <Header text={"Anecdote with most Votes"} />
+        <Paragraph text={props.topAnecdote} />
+        <Paragraph text={"has "+props.topVote+" votes"} />
     </div>
 }
 
@@ -23,22 +29,38 @@ const App = () => {
   ]
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
+  const [top, setTop] = useState(0)
 
-  const onNextAnecdote = () => setSelected(Math.floor(Math.random() * anecdotes.length))
+  const onNextAnecdote = () => {
+      setSelected(Math.floor(Math.random() * anecdotes.length))
+      setTop(getTopIndex())
+  }
   const onVote = () => {
-        const copy = {...votes}
+        const copy = [...votes]
         copy[selected] += 1
-        setVotes(copy)
+        setVotes(copy)       
+  }  
+  const getTopIndex = () => {
+    let max = 0
+    let idx = 0
+    for (let i = 0; i < votes.length; i++) {
+        if (votes[i] > max) {
+            max = votes[i]
+            idx = i
+        }
     }
+    return idx
+  }
 
   return (
     <div>
         <DisplayAnecdote 
-            anecdotes={anecdotes}
-            selected={selected}
-            votes = {votes}
+            anecdote={anecdotes[selected]}
+            vote = {votes[selected]}
             handleNextAnecdote={onNextAnecdote}
             handleOnVote={onVote}
+            topAnecdote={anecdotes[top]}
+            topVote={votes[top]}
         />
     </div>
   )
