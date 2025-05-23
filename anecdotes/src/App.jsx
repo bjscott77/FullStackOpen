@@ -1,9 +1,12 @@
 import { useState } from 'react'
 
 const Button = ({name, handleClick}) => <button onClick={handleClick}>{name}</button>
-const DisplayAnecdote = ({anecdote}) => {
+const DisplayAnecdote = (props) => {
     return <div>
-        <div>{anecdote}</div>
+        <div>{props.anecdotes[props.selected]}</div>        
+        <div>has {props.votes[props.selected]} votes</div>
+        <Button name={"Vote"} handleClick={props.handleOnVote} />         
+        <Button name={"Next Anecdote"} handleClick={props.handleNextAnecdote} />
     </div>
 }
 
@@ -30,10 +33,13 @@ const App = () => {
 
   return (
     <div>
-        <DisplayAnecdote anecdote={anecdotes[selected]} name={"Next Anecdote"} handleClick={onNextAnecdote} />
-        <div>has {votes[selected]} votes</div>
-        <Button name={"Vote"} handleClick={onVote} />         
-        <Button name={"Next Anecdote"} handleClick={onNextAnecdote} />
+        <DisplayAnecdote 
+            anecdotes={anecdotes}
+            selected={selected}
+            votes = {votes}
+            handleNextAnecdote={onNextAnecdote}
+            handleOnVote={onVote}
+        />
     </div>
   )
 }
