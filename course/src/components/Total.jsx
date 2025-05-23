@@ -1,7 +1,9 @@
 const Total = ({parts}) => {
+    let sum = 0
+    parts.forEach(p => sum += p.exercises)
     return (
         <p>
-            Number of exercises {parts[0].exercises + parts[1].exercises + parts[2].exercises}
+            <b>Total of {sum} exercises</b>
         </p>
     )
 }
