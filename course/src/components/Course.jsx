@@ -7,7 +7,7 @@ const Course = ({course}) => {
         <div>
             {course.map(c => {
                 return <div key={c.id}>
-                    <Header text={c.name} />
+                    <Header text={c.name} />    
                     <Content parts={c.parts} />
                     <Total parts={c.parts} />
                 </div>
