@@ -4,8 +4,8 @@ const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '555-5555' }
   ]) 
-  const [newName, setNewName] = useState("Enter a new record...")
-  const [newNumber, setNewNumber] = useState("Enter a new number...")
+  const [newName, setNewName] = useState("")
+  const [newNumber, setNewNumber] = useState("")
 
   const handleNameChange = (event) => {
       setNewName(event.target.value)
@@ -19,17 +19,17 @@ const App = () => {
       event.preventDefault()
       if (name === "") {
             alert("Name cannot be empty")
-            setNewName("Enter a new name...")
+            setNewName("")
       } else if (number === "") {
             alert("Number cannot be empty")
-            setNewNumber("Enter a new number...")
+            setNewNumber("")
       } else if (persons.some(p => p.number === number)) {
             alert(`Number ${number} is already in use`)
-            setNewNumber("Enter a new number...")
+            setNewNumber("")
       } else {
             setPersons(persons.concat({ name: name, number: number }))
-            setNewName("Enter a new name...")
-            setNewNumber("Enter a new number...")
+            setNewName("")
+            setNewNumber("")
       }
   }
 
@@ -38,10 +38,10 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={() => handleAddRecord(newName, newNumber)}>
         <div>
-          name: <input value={newName} onChange={handleNameChange} />
+          name: <input value={newName} placeholder={"Enter your name..."} onChange={handleNameChange} />
         </div>
         <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
+          number: <input value={newNumber} placeholder={"Enter your number..."} onChange={handleNumberChange} />
         </div>
         <div>
           <button type="submit">add</button>
