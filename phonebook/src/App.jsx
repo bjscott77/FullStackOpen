@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import AddPhoneRecord from './components/AddPhoneRecord'
+import PhoneRecordDisplay from './components/PhoneRecordDisplay'
+import PhoneRecordFilter from './components/PhoneRecordFilter'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -47,25 +50,17 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with: <input value={search} onChange={handleSearchChange} placeholder="Search by name or number..." />
-      </div>
-      <h2>add a new</h2>
-      <form onSubmit={() => handleAddRecord(newName, newNumber)}>
-        <div>
-          name: <input value={newName} placeholder={"Enter your name..."} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} placeholder={"Enter your number..."} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <div>
-        {filteredPersons.map(p => <div key={p.number}>{p.name} {p.number}</div>)}
-      </div>
+      <PhoneRecordFilter search={search} handleSearchChange={handleSearchChange} />
+      <h2>Add New Record</h2>
+      <AddPhoneRecord 
+            newName={newName} 
+            newNumber={newNumber} 
+            handleNameChange={handleNameChange} 
+            handleNumberChange={handleNumberChange} 
+            handleAddRecord={handleAddRecord}
+      />
+      <h2>Phone Records</h2>
+      <PhoneRecordDisplay filteredPersons={filteredPersons} />
     </div>
   )
 }
