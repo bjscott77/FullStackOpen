@@ -2,31 +2,46 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '555-5555' }
   ]) 
   const [newName, setNewName] = useState("Enter a new record...")
+  const [newNumber, setNewNumber] = useState("Enter a new number...")
 
   const handleNameChange = (event) => {
       setNewName(event.target.value)
   }
 
-  const handleAddName = (name) => {
+  const handleNumberChange = (event) => {
+      setNewNumber(event.target.value)  
+  }
+
+  const handleAddRecord = (name, number) => {
       event.preventDefault()
-      if (persons.some(n => n.name === ({ name: name }).name)) {
-          alert(`${name} is already added to phonebook`)    
-          setNewName("Enter a new record...")
+      if (name === "") {
+            alert("Name cannot be empty")
+            setNewName("Enter a new name...")
+      } else if (number === "") {
+            alert("Number cannot be empty")
+            setNewNumber("Enter a new number...")
+      } else if (persons.some(p => p.number === number)) {
+            alert(`Number ${number} is already in use`)
+            setNewNumber("Enter a new number...")
       } else {
-          setPersons(persons.concat({ name: name }))
-          setNewName("Enter a new record...")
+            setPersons(persons.concat({ name: name, number: number }))
+            setNewName("Enter a new name...")
+            setNewNumber("Enter a new number...")
       }
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={() => handleAddName(newName)}>
+      <form onSubmit={() => handleAddRecord(newName, newNumber)}>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
+        </div>
+        <div>
+          number: <input value={newNumber} onChange={handleNumberChange} />
         </div>
         <div>
           <button type="submit">add</button>
@@ -34,7 +49,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <div>
-        {persons.map(p => <div key={p.name}>{p.name}</div>)}
+        {persons.map(p => <div key={p.number}>{p.name} {p.number}</div>)}
       </div>
     </div>
   )
